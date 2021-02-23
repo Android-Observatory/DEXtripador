@@ -152,3 +152,6 @@ config.ini
 # elfparser
 obj-files/
 out/
+
+# test folder with apks
+test/
