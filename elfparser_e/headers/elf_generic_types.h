@@ -23,28 +23,28 @@ typedef struct elf_ehdr
 
 typedef struct elf_phdr
 {
-  uint32_t p_type;
-  uint32_t p_flags;
-  Elf64_Off p_offset;
-  Elf64_Addr p_vaddr;
-  Elf64_Addr p_paddr;
-  uint64_t p_filesz;
-  uint64_t p_memsz;
-  uint64_t p_align;
+  uint32_t p_type;      /* Segment type */
+  uint32_t p_flags;     /* Segment flags, I.E execute|read|write */
+  Elf64_Off p_offset;   /* Segment offset */
+  Elf64_Addr p_vaddr;   /* Segment virtual address */
+  Elf64_Addr p_paddr;   /* Segment physical address */
+  uint64_t p_filesz;    /* Size of segment in the file */
+  uint64_t p_memsz;     /* Size of segment in memory */
+  uint64_t p_align;     /* Segment alignment in memory */
 } Elf_Phdr;
 
 typedef struct elf_shdr
 {
-  uint32_t sh_name;
-  uint32_t sh_type;
-  uint64_t sh_flags;
-  Elf64_Addr sh_addr;
-  Elf64_Off sh_offset;
-  uint64_t sh_size;
-  uint32_t sh_link;
-  uint32_t sh_info;
-  uint64_t sh_addralign;
-  uint64_t sh_entsize;
+  uint32_t sh_name;     /* offset into shdr string table for shdr name */
+  uint32_t sh_type;     /* shdr type I.E SHT_PROGBITS */
+  uint64_t sh_flags;    /* shdr flags I.E SHT_WRITE|SHT_ALLOC */
+  Elf64_Addr sh_addr;   /* address of where section begins */
+  Elf64_Off sh_offset;  /* offset of shdr from beginning of file */
+  uint64_t sh_size;     /* size that section takes up on disk */
+  uint32_t sh_link;     /* points to another section (depends on the type) */
+  uint32_t sh_info;     /* interpretation depends on section type */
+  uint64_t sh_addralign;/* alignment for address of section */
+  uint64_t sh_entsize;  /* size of each certain entries that may be in section */
 } Elf_Shdr;
 
 typedef struct elf_sym
@@ -69,5 +69,14 @@ typedef struct elf_rela
   uint64_t    r_info;
   int64_t     r_addend;
 } Elf_Rela;
+
+typedef struct elf_dyn
+{
+  Elf64_Sxword  d_tag;
+  union {
+    Elf64_Xword d_val;
+    Elf64_Addr  d_ptr;
+  } d_un;
+} Elf_Dyn;
 
 #endif

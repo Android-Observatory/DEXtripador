@@ -7,6 +7,36 @@
 #ifndef ELF_PARSER_H
 #define ELF_PARSER_H
 
+
+// Some lost defines
+
+// .note.gnu.property notes sections.
+#ifndef PT_GNU_PROPERTY
+#define PT_GNU_PROPERTY 0x6474e553
+#endif
+
+// Fill with random data.
+#ifndef PT_OPENBSD_RANDOMIZE
+#define PT_OPENBSD_RANDOMIZE 0x65a3dbe6
+#endif
+
+// Program does W^X violations.
+#ifndef PT_OPENBSD_WXNEEDED
+#define PT_OPENBSD_WXNEEDED 0x65a3dbe7
+#endif
+
+// Section for boot arguments.
+#ifndef PT_OPENBSD_BOOTDATA
+#define PT_OPENBSD_BOOTDATA 0x65a41be6
+#endif
+
+// ARM program header types.
+// Platform architecture compatibility info
+#ifndef PT_ARM_ARCHEXT
+#define PT_ARM_ARCHEXT 0x70000000
+#endif
+
+
 int parse_elf(const char *pathname);
 
 /***
@@ -145,6 +175,21 @@ int64_t     rela_r_addend(size_t header, size_t index);
 
 size_t      rela_32_size();
 size_t      rela_64_size();
+
+/***
+ * DYNAMIC Program header parsing and printing
+ */
+int parse_elf_dynamic(uint8_t *buf_ptr, size_t file_size);
+void print_elf_dynamic();
+
+/***
+ * Printer functions, good for analsts
+ */
+void print_imported_libraries();
+void print_imported_functions();
+
+void print_exported_libraries();
+
 
 void close_everything();
 

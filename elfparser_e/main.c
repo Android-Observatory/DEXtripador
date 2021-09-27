@@ -8,13 +8,17 @@ main(int argc, char *argv[])
 
     if (argc < 2)
     {
-        printf("usage: elfparser [-a/-h/-l/-S/-s/-r] <elf_file>\n");
+        printf("usage: elfparser [-a/-h/-l/-S/-s/-r/-L/-i/-e] <elf_file>\n");
         printf("\t-a: all the flags\n");
         printf("\t-h: print elf header\n");
         printf("\t-l: print program header\n");
         printf("\t-S: print section header\n");
         printf("\t-s: print symbols header\n");
         printf("\t-r: print reloc headers\n");
+        printf("\t-D: print dynamic program headers\n");
+        printf("\t-L: print imported libraries\n");
+        printf("\t-i: print imported functions\n");
+        printf("\t-e: print exported libraries\n");
         printf("Badly written by: Fare9\n");
         printf("\n\n");
         exit(0);
@@ -23,7 +27,7 @@ main(int argc, char *argv[])
     if (parse_elf(argv[argc-1]) < 0)
         exit(-1);
 
-    while ((c = getopt(argc, argv, "ahlSsr:")) != -1)
+    while ((c = getopt(argc, argv, "ahlSsrDLie:")) != -1)
 	{
 		switch(c)
 		{
@@ -37,6 +41,14 @@ main(int argc, char *argv[])
             print_elf_sym();
             printf("\n");
             print_elf_rel_a();
+            printf("\n");
+            print_elf_dynamic();
+            printf("\n");
+            print_imported_libraries();
+            printf("\n");
+            print_imported_functions();
+            printf("\n");
+            print_exported_libraries();
             printf("\n");
             break;
         case 'h':
@@ -57,6 +69,22 @@ main(int argc, char *argv[])
             break;
         case 'r':
             print_elf_rel_a();
+            printf("\n");
+            break;
+        case 'D':
+            print_elf_dynamic();
+            printf("\n");
+            break;
+        case 'L':
+            print_imported_libraries();
+            printf("\n");
+            break;
+        case 'i':
+            print_imported_functions();
+            printf("\n");
+            break;
+        case 'e':
+            print_exported_libraries();
             printf("\n");
             break;
         default:
