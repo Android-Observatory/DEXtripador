@@ -100,7 +100,7 @@ get_file_size(int fd)
 		return (-1);
 	}
 
-	return buf_stat.st_size;
+	return (buf_stat.st_size);
 }
 
 int
