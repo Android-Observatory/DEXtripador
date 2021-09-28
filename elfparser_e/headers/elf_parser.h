@@ -189,6 +189,7 @@ void print_imported_libraries();
 void print_imported_functions();
 
 void print_exported_libraries();
+void print_exported_functions();
 
 
 void close_everything();

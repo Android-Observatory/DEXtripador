@@ -2570,6 +2570,59 @@ print_exported_libraries()
     }
 }
 
+void
+print_exported_functions()
+{
+        int i, j = 0;
+    uint64_t type;
+
+    printf("Elf exported functions:\n");
+
+    printf("   %s: %s\n",
+           "ID", "Name");
+
+    if (elf_dynsym)
+    {
+        for (i = 0; i < dynsym_num; i++)
+        {
+            if (is_32_bit_binary())
+                type = ELF32_ST_TYPE(elf_dynsym[i].st_info);
+            else if (is_64_bit_binary())
+                type = ELF64_ST_TYPE(elf_dynsym[i].st_info);
+            
+            if (type == STT_FUNC)
+            {
+                if (elf_dynsym[i].st_name != 0 && elf_dynsym[i].st_value != 0)
+                {
+                    if (&DynSymbolStringTable[elf_dynsym[i].st_name])
+                        printf(" %4d: %s\n", j++, &DynSymbolStringTable[elf_dynsym[i].st_name]);
+                }
+            }
+        }
+    }
+
+    if (elf_symtab)
+    {
+        for (i = 0; i < symtab_num; i++)
+        {
+            if (is_32_bit_binary())
+                type = ELF32_ST_TYPE(elf_symtab[i].st_info);
+            else if (is_64_bit_binary())
+                type = ELF64_ST_TYPE(elf_symtab[i].st_info);
+            
+            if (type == STT_FUNC && elf_symtab[i].st_value != 0)
+            {
+                if (elf_symtab[i].st_name != 0)
+                {
+                    if (&SymbolStringTable[elf_symtab[i].st_name])
+                        printf(" %4d: %s\n", j++, &SymbolStringTable[elf_symtab[i].st_name]);
+                }
+            }
+        }
+    }
+    return;
+}
+
 void close_everything()
 {
     size_t i;

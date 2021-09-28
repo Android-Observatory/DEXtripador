@@ -19,6 +19,7 @@ main(int argc, char *argv[])
         printf("\t-L: print imported libraries\n");
         printf("\t-i: print imported functions\n");
         printf("\t-e: print exported libraries\n");
+        printf("\t-f: print exported functions\n");
         printf("Badly written by: Fare9\n");
         printf("\n\n");
         exit(0);
@@ -27,7 +28,7 @@ main(int argc, char *argv[])
     if (parse_elf(argv[argc-1]) < 0)
         exit(-1);
 
-    while ((c = getopt(argc, argv, "ahlSsrDLie:")) != -1)
+    while ((c = getopt(argc, argv, "ahlSsrDLief:")) != -1)
 	{
 		switch(c)
 		{
@@ -85,6 +86,10 @@ main(int argc, char *argv[])
             break;
         case 'e':
             print_exported_libraries();
+            printf("\n");
+            break;
+        case 'f':
+            print_exported_functions();
             printf("\n");
             break;
         default:
