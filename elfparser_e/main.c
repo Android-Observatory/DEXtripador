@@ -51,6 +51,8 @@ main(int argc, char *argv[])
             printf("\n");
             print_exported_libraries();
             printf("\n");
+            print_exported_functions();
+            printf("\n");
             break;
         case 'h':
             print_elf_ehdr();

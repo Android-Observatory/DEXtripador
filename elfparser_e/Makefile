@@ -40,7 +40,7 @@ $(OUT)$(STATIC_LIB_NAME): $(OBJ)file_management.o $(OBJ)memory_management.o $(OB
 	$(AR) -crv $@ $^
 
 $(OUT)$(SHARED_LIB_NAME): $(SRC)file_management.c $(SRC)memory_management.c $(SRC)elf_parser.c $(SRC)elf_data_access.c
-	$(CC) -fpic -shared -Wformat=0 -I $(HDR) -o $@ $^
+	$(CC) -Wl,-soname=$(SHARED_LIB_NAME) -fpic -shared -Wformat=0 -I $(HDR) -o $@ $^
 	@cp $(OUT)$(SHARED_LIB_NAME) $(PYB)
 
 ########################################################
